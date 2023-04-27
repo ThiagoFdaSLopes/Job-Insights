@@ -1,4 +1,5 @@
 from typing import Union, List, Dict
+from src.insights.jobs import read
 
 
 def get_max_salary(path: str) -> int:
@@ -20,21 +21,14 @@ def get_max_salary(path: str) -> int:
 
 
 def get_min_salary(path: str) -> int:
-    """Get the minimum salary of all jobs
-
-    Must call `read`
-
-    Parameters
-    ----------
-    path : str
-        Must be passed to `read`
-
-    Returns
-    -------
-    int
-        The minimum salary paid out of all job opportunities
-    """
-    raise NotImplementedError
+    data = read(path)
+    min_salarys = []
+    for row in data:
+        salary = row["min_salary"].strip()
+        if salary.isdigit():
+            min_salarys.append(int(salary))
+    unique_salary = min(min_salarys)
+    return unique_salary
 
 
 def matches_salary_range(job: Dict, salary: Union[int, str]) -> bool:
@@ -64,8 +58,7 @@ def matches_salary_range(job: Dict, salary: Union[int, str]) -> bool:
 
 
 def filter_by_salary_range(
-    jobs: List[dict],
-    salary: Union[str, int]
+    jobs: List[dict], salary: Union[str, int]
 ) -> List[Dict]:
     """Filters a list of jobs by salary range
 
