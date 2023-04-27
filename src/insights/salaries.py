@@ -3,21 +3,14 @@ from src.insights.jobs import read
 
 
 def get_max_salary(path: str) -> int:
-    """Get the maximum salary of all jobs
-
-    Must call `read`
-
-    Parameters
-    ----------
-    path : str
-        Must be passed to `read`
-
-    Returns
-    -------
-    int
-        The maximum salary paid out of all job opportunities
-    """
-    raise NotImplementedError
+    data = read(path)
+    max_salarys = []
+    for row in data:
+        salary = row["max_salary"].strip()
+        if salary.isdigit():
+            max_salarys.append(int(salary))
+    unique_salary = max(max_salarys)
+    return unique_salary
 
 
 def get_min_salary(path: str) -> int:
